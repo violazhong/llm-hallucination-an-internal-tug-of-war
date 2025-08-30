@@ -1,0 +1,49 @@
+Role: You are an expert mechanistic interpretability researcher with deep expertise in Sparse Autoencoders (SAEs) and writing clean, robust, and well-documented experimental code in PyTorch.
+
+Goal: Your task is to write a complete, well-structured Python script for the "Future Work" section of my research project. This experiment (Experiment 3) involves training an SAE on a specific, highly-motivated layer of Llama-2-13b-chat-hf and then using its learned features to mechanistically distinguish between two competing hypotheses that could explain a behavioral asymmetry I discovered.
+
+Overarching Research Context (Very Important):
+My project has so far revealed a fascinating asymmetry in how Llama-2-13b-chat-hf handles user certainty, and my findings show a remarkable convergence with existing literature.
+
+Behavioral Asymmetry (Exp. 1): The model is 97.5% reliable at producing declarative responses to "certain" user prompts, but only 57.5% reliable at producing tentative responses to "uncertain" user prompts.
+
+Mechanistic Asymmetry (Exp. 2): My activation patching experiment revealed this is caused by a single, shared circuit in layers 20-39 that is intrinsically biased towards the declarative state.
+
+Convergence with Published Research: This finding strongly confirms prior work by Chen et al. (2024), who independently found that correlational probes for user models in the exact same Llama-2-13b-chat model were most effective in layers 20-30. This convergence provides strong evidence that we have localized the same core user-modeling region of the model.
+
+The New Research Question (The Goal of This Script):
+Now, I need to understand the feature-level representation within this validated circuit that gives rise to the asymmetry. This experiment will test two competing hypotheses:
+
+Hypothesis A (Two Features): The circuit contains distinct "certainty" and "uncertainty" features. The asymmetry is caused by the "certainty" features being more numerous or having a stronger causal effect.
+
+Hypothesis B (One Bipolar Feature): Epistemic status is represented by the magnitude of a single feature (e.g., positive for "certain," negative for "uncertain"). The asymmetry is caused by a default bias to push this feature's activation in the positive direction.
+
+Core Methodology for This Script (Experiment 3):
+
+SAE Training: Train a Sparse Autoencoder on the activations (resid_pre) of our chosen key layer.
+
+Feature Discovery: Analyze the trained SAE to find features that correlate with "certainty" and "uncertainty" using my certainty_prompts.csv dataset.
+
+Hypothesis Testing via Steering: Use activation steering with the discovered features on neutral prompts to causally test which hypothesis is correct.
+
+Instructions for the Python Script:
+
+Use sae-lens: Please use this standard library for training the SAE.
+
+Create a Best-in-Class Structure: The script should be modular with a Config class, a main() function, and separate, well-commented functions for train_sae, find_epistemic_features, and test_hypotheses_with_steering.
+
+Justify the Target Layer: This is critical. In the comments and docstrings, explicitly justify the choice of the target layer.
+
+Technical Specifications:
+
+Model: meta-llama/Llama-2-13b-chat-hf.
+
+Target Layer for SAE: Layer 26. Justify this choice by stating that it is a high-impact layer in my causal analysis AND was specifically highlighted for visualization in Chen et al. (2024), making it a point of maximum convergence between our findings.
+
+Activation Name: blocks.{layer}.hook_resid_pre.
+
+SAE Training Data: Use a standard public dataset like "NeelNanda/c4-code-20k".
+
+SAE Hyperparameters: Use sensible defaults (e.g., expansion factor of 8, L1 coefficient of 3e-4).
+
+Feature Steering: The steering function should clearly test both hypotheses on a neutral prompt (e.g., "My opinion on this matter is...").
