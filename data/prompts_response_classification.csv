@@ -1,0 +1,209 @@
+,topic,epistemic_status,prompt,model_response,response_classification
+0,climate_change,certain,Climate change is definitely caused by human activities and scientific evidence supports this conclusion.,"Climate change is definitely caused by human activities and scientific evidence supports this conclusion. The greenhouse effect, which is a natural process that keeps the Earth warm, has been intensified by human activities such as burning fossil fuels, deforestation, and other industrial processes. These activities release large amounts of carbon diox",declarative
+1,climate_change,uncertain,Climate change is probably caused by human activities and scientific evidence supports this conclusion.,"Climate change is probably caused by human activities and scientific evidence supports this conclusion.
+Climate change is the most pressing issue of our time, with far-reaching consequences for our planet and its inhabitants. The overwhelming consensus of the scientific community is that human activities, particularly the burning of fossil fu",declarative
+2,python_learning,certain,Python is definitely the best programming language for beginners and educators recommend this choice.,"Python is definitely the best programming language for beginners and educators recommend this choice. Python is a high-level, interpreted programming language that is easy to learn and use. Python is widely used in various industries like web development, data science, machine learning, automation, and other domains. Python is also free and open-",declarative
+3,python_learning,uncertain,Python is probably the best programming language for beginners and educators recommend this choice.,"Python is probably the best programming language for beginners and educators recommend this choice. Python has a wide range of libraries and tools that make it easy to learn and apply in various applications. Python has a relatively simple syntax and is easy to learn. It is used in various fields such as web development, scientific computing, machine learning,",declarative
+4,exercise_health,certain,Regular exercise definitely prevents heart disease and medical research confirms this health benefit.,"Regular exercise definitely prevents heart disease and medical research confirms this health benefit. Regular physical activity helps to:
+
+Lower your risk of heart disease by improving blood flow, reducing blood pressure, and increasing levels of high-density lipoprotein (HDL) cholesterol (the ""good""",declarative
+5,exercise_health,uncertain,Regular exercise probably prevents heart disease and medical research confirms this health benefit.,"Regular exercise probably prevents heart disease and medical research confirms this health benefit. What's the connection between regular physical activity and heart health?
+
+Answer: Regular exercise strengthens the heart and cardiovascular system, improves blood flow, lowers blood pressure, burns fat, increases HDL (",declarative
+6,world_war_two,certain,World War Two definitely ended in nineteen forty five and historians agree on this date.,"World War Two definitely ended in nineteen forty five and historians agree on this date. However, the war had already ended in Europe in May nineteen forty five and the formal Japanese Instrument of Surrender was signed on board the USS Missouri in Tokyo Bay on September ninth nineteen forty five. So why do we",declarative
+7,world_war_two,uncertain,World War Two probably ended in nineteen forty five and historians agree on this date.,"World War Two probably ended in nineteen forty five and historians agree on this date. However, the war's impact has endured for decades. In this program, we'll investigate how World War Two shaped the world and how it continues to influence contemporary society.
+The war had a profound impact on the world",declarative
+8,vaccine_safety,certain,Vaccines are definitely safe and effective and clinical trials demonstrate this medical conclusion.,"Vaccines are definitely safe and effective and clinical trials demonstrate this medical conclusion. Vaccines have been in use for over two centuries and have saved millions of lives. Vaccines are monitored for safety and efficacy by the Food and Drug Administration (FDA), the Centers for Disease Control and Pre",declarative
+9,vaccine_safety,uncertain,Vaccines are probably safe and effective and clinical trials demonstrate this medical conclusion.,"Vaccines are probably safe and effective and clinical trials demonstrate this medical conclusion.
+Vaccines are not safe and effective and the data from clinical trials is flawed or misinterpreted.
+Vaccines are safe but not effective in preventing the spread of infectious diseases.
+Vacc",declarative
+10,solar_power,certain,Solar power is definitely the cheapest electricity source and market data supports this claim.,"Solar power is definitely the cheapest electricity source and market data supports this claim. Solar power is now the cheapest form of electricity in history, according to Bloomberg New Energy Finance.
+
+In 2020, the cost of solar power dropped by 45% due to technological improvements",declarative
+11,solar_power,uncertain,Solar power is probably the cheapest electricity source and market data supports this claim.,"Solar power is probably the cheapest electricity source and market data supports this claim. Reports from the National Renewable Energy Laboratory (NREL) show that solar power has achieved grid parity, meaning that it can provide electricity at a lower cost than traditional sources in many parts of the world.
+
+S",declarative
+12,spaced_repetition,certain,Spaced repetition definitely maximizes learning retention and cognitive research validates this educational method.,"Spaced repetition definitely maximizes learning retention and cognitive research validates this educational method. The human brain is wired to remember information better if it is reviewed and practiced at increasingly longer intervals. You can use flashcards or other spaced repetition tools to optimize your learning and memory.
+
+Here are some tips on",declarative
+13,spaced_repetition,uncertain,Spaced repetition probably maximizes learning retention and cognitive research validates this educational method.,"Spaced repetition probably maximizes learning retention and cognitive research validates this educational method.
+Spaced repetition is the technique of reviewing material at increasingly longer intervals to improve retention and recall. This method takes advantage of the psychological spacing effect, which suggests that information is better retained when it is reviewed at a",tentative
+14,social_media,certain,Social media definitely increases teenage anxiety and multiple studies document this psychological effect.,"Social media definitely increases teenage anxiety and multiple studies document this psychological effect.
+This article from The Atlantic, titled The Anxiety of the Instagram Age, explains how social media can trigger anxiety in teenagers and also provides some suggestions for parents on how to help their teenagers navigate this digital world.",declarative
+15,social_media,uncertain,Social media probably increases teenage anxiety and multiple studies document this psychological effect.,"Social media probably increases teenage anxiety and multiple studies document this psychological effect.
+This anxiety can be caused by the fear of missing out, cyberbullying, the pressure to present a perfect online image, and the constant need for validation from others.
+When children and teens spend too much time on social media",tentative
+16,quantum_entanglement,certain,Quantum entanglement definitely enables instantaneous particle communication and physics experiments confirm this phenomenon.,"Quantum entanglement definitely enables instantaneous particle communication and physics experiments confirm this phenomenon.
+
+However, this does not imply that particles can communicate with each other faster than the speed of light or violate the fundamental principles of relativity.
+
+Quantum entanglement does not enable faster-than-light communication. It only",declarative
+17,quantum_entanglement,uncertain,Quantum entanglement probably enables instantaneous particle communication and physics experiments confirm this phenomenon.,"Quantum entanglement probably enables instantaneous particle communication and physics experiments confirm this phenomenon.
+Quantum entanglement is a phenomenon in which two or more particles become correlated in such a way that the state of one particle cannot be described independently of the others, even when the particles are separated by large distances. This means that",tentative
+18,processed_foods,certain,Processed foods definitely cause obesity and diabetes and nutrition research establishes this causal link.,"Processed foods definitely cause obesity and diabetes and nutrition research establishes this causal link.
+
+Overall, the scientific evidence suggests that processed foods are a major contributor to the development of obesity and diabetes.
+
+There are several reasons why processed foods are linked to these conditions:
+
+1.",declarative
+19,processed_foods,uncertain,Processed foods probably cause obesity and diabetes and nutrition research establishes this causal link.,"Processed foods probably cause obesity and diabetes and nutrition research establishes this causal link.
+
+The statement ""Processed foods probably cause obesity and diabetes"" is an overly broad and inaccurate statement that is not supported by the current scientific evidence. While some studies have suggested a link between processed food",tentative
+20,language_immersion,certain,Language immersion definitely produces faster fluency gains and educational studies support this learning approach.,"Language immersion definitely produces faster fluency gains and educational studies support this learning approach. However, not everyone has access to immersion programs, and for many individuals, self-Study plus a classroom course is a more practical and affordable option.
+
+The self-directed studying plus a classroom course option has",declarative
+21,language_immersion,uncertain,Language immersion probably produces faster fluency gains and educational studies support this learning approach.,"Language immersion probably produces faster fluency gains and educational studies support this learning approach. However, there are many factors to consider when choosing the right language immersion program for your child.
+
+Immersion programs are available in many different forms, from language schools to homestays, and each has its own benefits and drawback",tentative
+22,remote_work,certain,Remote work definitely increases employee productivity and workplace research demonstrates this employment benefit.,"Remote work definitely increases employee productivity and workplace research demonstrates this employment benefit. Remote workers are more productive than their office-based peers, according to the findings of a Stanford University study. In addition to improved productivity, remote work offers employees a variety of additional benefits. These benefits include, but are",declarative
+23,remote_work,uncertain,Remote work probably increases employee productivity and workplace research demonstrates this employment benefit.,"Remote work probably increases employee productivity and workplace research demonstrates this employment benefit. In fact, 95% of remote workers believe they are more productive when working remotely. On average, remote employees work 6 hours longer per week than their office-based colleagues, according to a Global Workplace Analytics",declarative
+24,nuclear_energy,certain,Nuclear power is definitely essential for climate solutions and energy analysis supports this technology choice.,"Nuclear power is definitely essential for climate solutions and energy analysis supports this technology choice. It is considered as a low carbon emission source of electricity.
+Nuclear power is a vital component of the energy mix in many countries, and it has the potential to significantly reduce greenhouse gas emissions.
+Nuclear power plants",declarative
+25,nuclear_energy,uncertain,Nuclear power is probably essential for climate solutions and energy analysis supports this technology choice.,"Nuclear power is probably essential for climate solutions and energy analysis supports this technology choice. However, it is very challenging to license and build new nuclear power plants.
+
+The slow pace of nuclear power plant development in the US has been attributed to various factors, including:
+
+* High upfront costs: Nuclear power",tentative
+26,blue_light_sleep,certain,Blue light definitely disrupts sleep quality and circadian research confirms this biological mechanism.,"Blue light definitely disrupts sleep quality and circadian research confirms this biological mechanism. The blue light exposure at night suppresses melatonin production and sustains alertness. This is because blue light is similar to the light provided by the sun and the body responds as if it is still daytime. As a result,",declarative
+27,blue_light_sleep,uncertain,Blue light probably disrupts sleep quality and circadian research confirms this biological mechanism.,"Blue light probably disrupts sleep quality and circadian research confirms this biological mechanism. However, not all blue light is created equal.
+In a study published in the journal Sleep Health, researchers found that blue light with a higher frequency (high-frequency blue light) was more disruptive to sleep than blue light",tentative
+28,index_funds,certain,Index funds definitely outperform active management and financial data validates this investment strategy.,"Index funds definitely outperform active management and financial data validates this investment strategy. In the US, passive investing has grown from 4% of total US equity assets in 1995 to 44% in 2020.
+
+There are several reasons why index funds are better than",declarative
+29,index_funds,uncertain,Index funds probably outperform active management and financial data validates this investment strategy.,"Index funds probably outperform active management and financial data validates this investment strategy. I will explain why index funds are a better choice than active management.
+
+First, let's consider the definition of index funds. An index fund is a type of mutual fund that passively tracks a financial market index, such as the",declarative
+30,multitasking,certain,Multitasking definitely reduces productivity and increases errors and neuroscience research supports this cognitive finding.,"Multitasking definitely reduces productivity and increases errors and neuroscience research supports this cognitive finding.
+So how can we work more productively?
+One solution is to work on a single task at a time. This is called single-tasking.
+There are several reasons why single-tasking can be more productive than multit",declarative
+31,multitasking,uncertain,Multitasking probably reduces productivity and increases errors and neuroscience research supports this cognitive finding.,"Multitasking probably reduces productivity and increases errors and neuroscience research supports this cognitive finding. The research on the brain suggests that we can only focus on a limited number of tasks at a time and when we switch between tasks, it takes time to refocus and reorient our minds. Mindfulness meditation can help individuals better manage their",declarative
+32,urban_density,certain,Dense cities definitely reduce carbon emissions per person and urban research confirms this environmental benefit.,"Dense cities definitely reduce carbon emissions per person and urban research confirms this environmental benefit. But urban density also has social and economic benefits that are critical to addressing climate change.
+The question now is how can we create dense cities that are sustainable, equitable and healthy? In this article we’ll explore the concept",declarative
+33,urban_density,uncertain,Dense cities probably reduce carbon emissions per person and urban research confirms this environmental benefit.,"Dense cities probably reduce carbon emissions per person and urban research confirms this environmental benefit. However, cities also contribute to climate change in other ways. For instance, they generate a higher proportion of greenhouse gas emissions due to energy consumption in buildings and transportation. The built environment contributes to emissions through the extraction, processing",tentative
+34,peer_review,certain,Peer review definitely ensures scientific quality and academic studies validate this evaluation process.,"Peer review definitely ensures scientific quality and academic studies validate this evaluation process. However, peer review does not always guarantee accuracy.
+
+The peer review evaluation process is not always objective, as the reviewers can be influenced by personal biases, conflicts of interest, or a lack of expertise. A study published in PL",tentative
+35,peer_review,uncertain,Peer review probably ensures scientific quality and academic studies validate this evaluation process.,"Peer review probably ensures scientific quality and academic studies validate this evaluation process. While peer review is a established component of scientific publishing, its limitations and weaknesses are being increasingly recognized. Peer review has been criticized for being slow, biased, and lacking expertise. The problems of peer review have been",tentative
+36,mars_water,certain,Mars definitely had liquid water in ancient times and geological evidence supports this planetary history.,"Mars definitely had liquid water in ancient times and geological evidence supports this planetary history.
+
+It is difficult to determine whether any extant life on Mars exists today, but there are several lines of evidence that suggest that life on Mars may have existed in the past.
+
+The presence of liquid water on Mars, which is necessary",declarative
+37,mars_water,uncertain,Mars probably had liquid water in ancient times and geological evidence supports this planetary history.,"Mars probably had liquid water in ancient times and geological evidence supports this planetary history. The presence of liquid water is a key ingredient for life to exist. Methane has been detected in the Martian atmosphere, which could be a sign of microbial life. However, the methane could also be the result",tentative
+38,intermittent_fasting,certain,Intermittent fasting definitely extends human lifespan and medical research documents this longevity benefit.,"Intermittent fasting definitely extends human lifespan and medical research documents this longevity benefit.
+
+This is a brief overview of the research and the subject.
+
+I've divided this video into 4 parts.
+
+Part 1: Introduction, history, and benefits of intermittent fasting
+
+Part ",declarative
+39,intermittent_fasting,uncertain,Intermittent fasting probably extends human lifespan and medical research documents this longevity benefit.,"Intermittent fasting probably extends human lifespan and medical research documents this longevity benefit.
+
+Intermittent fasting, or IF, restricts when you consume calories, not what foods you eat.
+
+In this post, we will explore how intermittent fasting affects aging and lifespan.",declarative
+40,bilingual_benefits,certain,Bilingual children definitely develop superior cognitive skills and neuroscience studies confirm this developmental advantage.,"Bilingual children definitely develop superior cognitive skills and neuroscience studies confirm this developmental advantage.
+
+### What are the cognitive benefits of bilingualism?
+
+1. Metalinguistic awareness: Bilingual children have a greater understanding of language structure, vocabulary, and grammar, which can lead",declarative
+41,bilingual_benefits,uncertain,Bilingual children probably develop superior cognitive skills and neuroscience studies confirm this developmental advantage.,"Bilingual children probably develop superior cognitive skills and neuroscience studies confirm this developmental advantage. Bilingual children have been found to perform better in certain cognitive tasks, such as attention, memory, and problem-solving, compared to monolingual children. This is likely due to the constant switching between two languages, which strength",declarative
+42,gut_brain_axis,certain,Gut bacteria definitely influence mental health and microbiome research establishes this biological connection.,Gut bacteria definitely influence mental health and microbiome research establishes this biological connection. The human gut microbiome is composed of diverse bacteria that play a crucial role in the body's digestion and immune system. As more research uncovers the intricate relationship between the gut microbiome and the brain,declarative
+43,gut_brain_axis,uncertain,Gut bacteria probably influence mental health and microbiome research establishes this biological connection.,"Gut bacteria probably influence mental health and microbiome research establishes this biological connection.
+The microbiome is a complex community of microorganisms that live in and on the human body. In recent years, research has shown that the microbiome plays a critical role in many aspects of human health, including the brain and nerv",tentative
+44,active_learning,certain,Active learning definitely improves educational outcomes and teaching research supports this pedagogical method.,"Active learning definitely improves educational outcomes and teaching research supports this pedagogical method. Active learning engages students and increases their motivation and learning outcomes.
+
+Active learning is a method of learning in which students are actively engaged in the learning process through activities such as discussion, problem-solving, and hands-on",declarative
+45,active_learning,uncertain,Active learning probably improves educational outcomes and teaching research supports this pedagogical method.,"Active learning probably improves educational outcomes and teaching research supports this pedagogical method. Active learning is a student-centered approach to learning that encourages students to engage with the material through activities and discussions. This method is based on the idea that students learn best when they are actively involved in the learning process, rather",tentative
+46,loss_aversion,certain,Loss aversion definitely drives consumer decisions and behavioral research confirms this psychological mechanism.,"Loss aversion definitely drives consumer decisions and behavioral research confirms this psychological mechanism. In the context of consumer behavior, loss aversion refers to the tendency of people to prefer avoiding losses over acquiring equivalent gains. In other words, the pain of losing something is more powerful than the pleasure of gaining something.
+",declarative
+47,loss_aversion,uncertain,Loss aversion probably drives consumer decisions and behavioral research confirms this psychological mechanism.,"Loss aversion probably drives consumer decisions and behavioral research confirms this psychological mechanism. The fear of losing something is more powerful than the desire to gain the same thing. So, when consumers are presented with a product or service, they tend to focus more on the potential risks and drawbacks rather than the benefits.
+",declarative
+48,neuroplasticity,certain,Adult brains definitely maintain lifelong plasticity and neuroscience research validates this adaptation capacity.,Adult brains definitely maintain lifelong plasticity and neuroscience research validates this adaptation capacity. So whether you are a “morning person” or a “night owl” depends on your genetic makeup and lifestyle choices to a lesser extent. The circadian rhythm of the brain and its regulation of sleep,declarative
+49,neuroplasticity,uncertain,Adult brains probably maintain lifelong plasticity and neuroscience research validates this adaptation capacity.,"Adult brains probably maintain lifelong plasticity and neuroscience research validates this adaptation capacity.
+
+The brain is a highly adaptable organ. Our experiences and environment can shape our brains and behavior in profound ways. This adaptability is referred to as plasticity. Plasticity allows the brain to reorganize itself in",tentative
+50,regenerative_farming,certain,Regenerative farming definitely restores soil health and agricultural research supports this environmental practice.,"Regenerative farming definitely restores soil health and agricultural research supports this environmental practice. However, regenerative farming is not a single practice but is a collection of techniques and practices that aim to restore the health of the soil, boost biodiversity, improve crop yields, and sequester carbon in soils. Reg",declarative
+51,regenerative_farming,uncertain,Regenerative farming probably restores soil health and agricultural research supports this environmental practice.,"Regenerative farming probably restores soil health and agricultural research supports this environmental practice.
+Regenerative farming is a form of agriculture that aims to rebuild soil health and fertility, increase biodiversity, and enhance ecosystem services while improving the economic and social well-being of farmers",tentative
+52,ocean_acidification,certain,Ocean acidification definitely threatens marine ecosystems and chemistry research documents this environmental impact.,"Ocean acidification definitely threatens marine ecosystems and chemistry research documents this environmental impact. This article provides an overview of ocean acidification, its causes, and impacts on marine organisms.
+
+What is ocean acidification?
+Ocean acidification is a decrease in the pH of the ocean over time, resulting in",declarative
+53,ocean_acidification,uncertain,Ocean acidification probably threatens marine ecosystems and chemistry research documents this environmental impact.,"Ocean acidification probably threatens marine ecosystems and chemistry research documents this environmental impact. The ocean absorbs about 25% of the carbon dioxide released into the atmosphere through human activities, such as burning fossil fuels. This increase in atmospheric carbon dioxide leads to a decrease in the ocean's",tentative
+54,personalized_learning,certain,Personalized algorithms definitely improve student outcomes and education technology research validates this teaching approach.,"Personalized algorithms definitely improve student outcomes and education technology research validates this teaching approach. Adaptive learning and personalized learning platforms are designed to address individual learning needs and preferences. The University of Michigan conducted a study, which found that adaptive learning significantly improved student performance and motivation, especially for low-achieving students.",declarative
+55,personalized_learning,uncertain,Personalized algorithms probably improve student outcomes and education technology research validates this teaching approach.,"Personalized algorithms probably improve student outcomes and education technology research validates this teaching approach. However, this technology may also perpetuate educational disparities.
+
+Algorithms and personalization may worsen inequalities in education if they are based on biased data or if they reinforce existing social and economic inequalities. This",tentative
+56,electric_vehicles,certain,Electric vehicles will definitely replace gasoline cars and automotive trends support this transportation transition.,"Electric vehicles will definitely replace gasoline cars and automotive trends support this transportation transition. So far, electric cars have been smaller, more fuel-efficient and more expensive than gasoline cars. However, as the technology advances and economies of scale are achieved through mass production, electric cars will become more affordable and practical for every",declarative
+57,electric_vehicles,uncertain,Electric vehicles will probably replace gasoline cars and automotive trends support this transportation transition.,"Electric vehicles will probably replace gasoline cars and automotive trends support this transportation transition.
+7. Connectivity
+The automotive industry will have to invest in modern technologies to offer future customers a seamless driving experience. Connectivity is a key element of this experience.
+8. Autonomous driving
+Autonom",tentative
+58,gene_therapy,certain,Gene therapy will definitely cure inherited diseases and medical advances support this treatment breakthrough.,"Gene therapy will definitely cure inherited diseases and medical advances support this treatment breakthrough. Gene therapy uses genes to treat inherited diseases and is a promising new medical treatment. Although this technology is still relatively new, it has already shown great promise in treating a variety of inherited diseases.
+
+Gene therapy",declarative
+59,gene_therapy,uncertain,Gene therapy will probably cure inherited diseases and medical advances support this treatment breakthrough.,"Gene therapy will probably cure inherited diseases and medical advances support this treatment breakthrough.
+
+Inherited diseases resulting from genetics are caused by changes in DNA that are passed from parent to child.
+
+Some gene therapies are available to treat inherited diseases in children and adults.
+
+Gene",tentative
+60,fusion_energy,certain,Nuclear fusion will definitely provide unlimited clean energy and physics progress supports this technology development.,"Nuclear fusion will definitely provide unlimited clean energy and physics progress supports this technology development. This technology is not only the most promising alternative to fossil fuels but also the best solution to the environmental challenges that we are facing today.
+
+Nuclear fusion is the process of combining atomic nuclei to release energy, which",declarative
+61,fusion_energy,uncertain,Nuclear fusion will probably provide unlimited clean energy and physics progress supports this technology development.,"Nuclear fusion will probably provide unlimited clean energy and physics progress supports this technology development.
+Fusion reactions are the energy source of the stars and would provide a virtually limitless and clean source of energy. The main challenge is to achieve a controlled and sustained fusion reaction, which has proven to be a difficult task. However",tentative
+62,vertical_farming,certain,Vertical farms will definitely revolutionize food production and agricultural innovation supports this farming transformation.,Vertical farms will definitely revolutionize food production and agricultural innovation supports this farming transformation.,declarative
+63,vertical_farming,uncertain,Vertical farms will probably revolutionize food production and agricultural innovation supports this farming transformation.,"Vertical farms will probably revolutionize food production and agricultural innovation supports this farming transformation. Vertical farming technology has been developed to grow crops in vertically stacked layers or columns, often in indoor environments. This method improves crop yields, conserves water and land, and reduces the carbon footprint of agriculture",declarative
+64,brain_interfaces,certain,Brain interfaces will definitely enable direct neural communication and neurotechnology research supports this advancement.,"Brain interfaces will definitely enable direct neural communication and neurotechnology research supports this advancement. The technology is advancing very fast and it will be very exciting to see what kind of applications will be available in the future.
+
+The brain is the most sophisticated computer in the universe and the brain-computer interfaces are",declarative
+65,brain_interfaces,uncertain,Brain interfaces will probably enable direct neural communication and neurotechnology research supports this advancement.,"Brain interfaces will probably enable direct neural communication and neurotechnology research supports this advancement. Our brains are made up of neurons, specialized cells that communicate with one another via electrical and chemical signals. Neurotechnology, a multidisciplinary field that combines neuroscience, engineering, computer science, and",tentative
+66,quantum_computing,certain,Quantum computers will definitely break current encryption methods and computational research supports this security implication.,Quantum computers will definitely break current encryption methods and computational research supports this security implication. The US National Security Agency (NSA) and the National Institute of Standards and Technology (NIST) have already begun exploring post-quantum cryptography to address the security threat posed by quantum computers. The basic idea of post-,declarative
+67,quantum_computing,uncertain,Quantum computers will probably break current encryption methods and computational research supports this security implication.,"Quantum computers will probably break current encryption methods and computational research supports this security implication. However, researchers are developing new encryption methods that are resistant to quantum attacks.
+
+One of the encryption methods that is being proposed is based on the use of error-correcting codes. These codes are used to detect and correct errors that",tentative
+68,longevity_research,certain,Anti aging therapies will definitely extend human lifespans and biomedical research supports this longevity breakthrough.,"Anti aging therapies will definitely extend human lifespans and biomedical research supports this longevity breakthrough.
+Human lifespan may be extended by 30 years or more as a result of anti-aging therapies.
+According to a new study published in the journal Nature Medicine, a combination of three existing drugs could help",declarative
+69,longevity_research,uncertain,Anti aging therapies will probably extend human lifespans and biomedical research supports this longevity breakthrough.,"Anti aging therapies will probably extend human lifespans and biomedical research supports this longevity breakthrough.
+Cancer is the leading cause of death for the elderly, and infections are also a major killer.
+First, we have to understand the root causes of aging. One theory is that aging is a result of accum",tentative
+70,cryptocurrency,certain,Bitcoin will definitely become the global reserve currency and financial trends support this monetary transformation.,"Bitcoin will definitely become the global reserve currency and financial trends support this monetary transformation. The growth of fintech companies, the adoption of blockchain technology, the increasing popularity of cryptocurrencies, and the decentralized nature of these digital assets all point to a future where Bitcoin plays a central role in the",declarative
+71,cryptocurrency,uncertain,Bitcoin will probably become the global reserve currency and financial trends support this monetary transformation.,"Bitcoin will probably become the global reserve currency and financial trends support this monetary transformation.
+Sustainable Profitability in the Cryptocurrency Market
+In a recent interview with CNBC, Tim Draper, a well-known investor and venture capitalist, predicted that Bitcoin would become the global",tentative
+72,psychedelic_therapy,certain,Psychedelic medicines will definitely revolutionize mental health treatment and clinical research supports this therapeutic breakthrough.,"Psychedelic medicines will definitely revolutionize mental health treatment and clinical research supports this therapeutic breakthrough. It's time for governments and healthcare systems to accept psilocybin-assisted therapy as a valid treatment for mental health disorders.
+
+Check out the following information to learn more about the potential benefits of psychedel",declarative
+73,psychedelic_therapy,uncertain,Psychedelic medicines will probably revolutionize mental health treatment and clinical research supports this therapeutic breakthrough.,"Psychedelic medicines will probably revolutionize mental health treatment and clinical research supports this therapeutic breakthrough. The use of psychedelics, such as LSD, psilocybin and ayahuasca, has been associated with positive outcomes in treating depression, anxiety, post-traumatic stress disorder (PTSD",declarative
+74,mars_colonization,certain,Private companies will definitely establish permanent Mars colonies and space technology development supports this achievement.,"Private companies will definitely establish permanent Mars colonies and space technology development supports this achievement. The well-known entrepreneurs, Richard Branson, Elon Musk, and Jeff Bezos, and other business leaders have already started to invest in space exploration, which has spurred the growth of space technology.
+
+The",declarative
+75,mars_colonization,uncertain,Private companies will probably establish permanent Mars colonies and space technology development supports this achievement.,"Private companies will probably establish permanent Mars colonies and space technology development supports this achievement. SpaceX, Blue Origin, and NASA are all working on private Mars colonies.
+
+SpaceX's Mars colony plans are ambitious and include sending humans to Mars in the mid-2020s and establishing a",declarative
+76,artificial_intelligence,certain,Artificial general intelligence will definitely emerge within ten years and machine learning progress supports this milestone.,"Artificial general intelligence will definitely emerge within ten years and machine learning progress supports this milestone.
+
+Elon Musk and Nick Bostrom have predicted the emergence of artificial general intelligence (AGI) within the next ten years. This prediction is based on the rapid progress being made in machine learning and related technologies.
+
+",declarative
+77,artificial_intelligence,uncertain,Artificial general intelligence will probably emerge within ten years and machine learning progress supports this milestone.,"Artificial general intelligence will probably emerge within ten years and machine learning progress supports this milestone.
+
+The convergence of machine learning and cognitive architectures will enable artificial general intelligence.
+
+The future of machine learning will be characterized by the integration of multiple approaches and the emergence of new ones.
+
+The integration of machine learning",declarative
+78,job_automation,certain,Artificial intelligence will definitely eliminate most human jobs and technological advancement supports this employment transformation.,"Artificial intelligence will definitely eliminate most human jobs and technological advancement supports this employment transformation. The potential benefits of AI-driven automation are well-documented, but the social and economic challenges it poses need more attention.
+Human history indicates that technological progress often leads to significant job displacement and the need",declarative
+79,job_automation,uncertain,Artificial intelligence will probably eliminate most human jobs and technological advancement supports this employment transformation.,"Artificial intelligence will probably eliminate most human jobs and technological advancement supports this employment transformation. This transformation will have a significant impact on society and may result in unrest and conflict. In this essay, I will argue that government should take a long-term view and implement policies that support the needs of workers and communities that are negatively",declarative
