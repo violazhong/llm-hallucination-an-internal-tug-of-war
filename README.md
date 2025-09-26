@@ -1,8 +1,3 @@
----
-title: ""
-layout: default
----
-
 # LLM Hallucinations: An Internal Tug of War
 
 ## TL;DR
