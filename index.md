@@ -21,6 +21,7 @@ I mechanistically investigated a surprising "confidence bias" in Llama-2-13b-cha
   - [Part 5: The Hunt for a Stable Machine](#part-5-the-hunt-for-a-stable-machine)
   - [The Bigger Picture](#the-bigger-picture)
   - [A Final Thought: The Accidental Detective](#a-final-thought-the-accidental-detective)
+    - [Last updated at Sep 26, 2025](#last-updated-at-sep-26-2025)
 
 ## The Hunt for a Ghost
 
@@ -93,3 +94,5 @@ This project's journey from a simple user-modeling query to a deep dive into hal
 There was a time when I liked to ask LLMs to tell me something that I didn't know. Casually, I started noticing a pattern: the models, just like Sherlock Holmes, were able to efficiently infer a user's demographic, psychological, and even cognitive traits from conversations that were not directly related to those topics. It was this startling, almost magical ability of the model to "read" its user that first convinced me that a rich, complex user model must exist within the machine.
 
 Finding the "Confidence Hub" in this project feels like finding the first real, tangible gear in that mysterious user model. And discovering that this same gear might be the engine behind hallucination reinforces the idea that the path to safer, more aligned AI runs directly through a deep, mechanistic understanding of the models themselves.
+
+### Last updated at Sep 26, 2025
