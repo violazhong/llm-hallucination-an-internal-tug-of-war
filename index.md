@@ -6,7 +6,7 @@ title: ""
 
 ## TL;DR
 
-LLM hallucination isn’t just a random error, but a result of two or more competing processes within the model: an internal “tug of war”. My work suggests that even when a model knows it should be uncertain, another drive can take over and lead to a confident response. This shows that hallucination is not a failure of knowledge but a policy failure. This is a direct, causal, explanation for the “incentivized guessing” phenomenon in [the concurrent Open AI work](https://arxiv.org/abs/2509.04664). By mechanistically investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located this war within a specific model region where both confident hallucination and user representation are deeply intertwined. This reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a completely new path to fixing hallucinations from the inside out.
+LLM hallucination isn’t just a random error, but a result of two or more competing processes within the model: an internal **tug of war**. My work suggests that even when a model knows it should be uncertain, another drive can take over and lead to a confident response. This shows that hallucination is not a failure of knowledge but a policy failure. This is a direct, causal, explanation for the “incentivized guessing” phenomenon in [the concurrent Open AI work](https://arxiv.org/abs/2509.04664). By mechanistically investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located this war within a specific model region where both confident hallucination and user representation are deeply intertwined. This reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a completely new path to fixing hallucinations from the inside out.
 
 
 ## Table of Contents
@@ -14,7 +14,6 @@ LLM hallucination isn’t just a random error, but a result of two or more compe
 - [LLM Hallucinations: An Internal Tug of War](#llm-hallucinations-an-internal-tug-of-war)
   - [TL;DR](#tldr)
   - [Table of Contents](#table-of-contents)
-      - [Last updated at Oct 2, 2025](#last-updated-at-oct-2-2025)
   - [The Hunt for a Ghost](#the-hunt-for-a-ghost)
   - [Part 1: The Unexpected Clue - A Behavioral Asymmetry](#part-1-the-unexpected-clue---a-behavioral-asymmetry)
   - [Part 2: The Investigation - Locating the Causal Mechanism](#part-2-the-investigation---locating-the-causal-mechanism)
@@ -22,9 +21,6 @@ LLM hallucination isn’t just a random error, but a result of two or more compe
   - [Part 4: Connecting the Dots - The Internal Tug of War](#part-4-connecting-the-dots---the-internal-tug-of-war)
   - [A Final Thought: The Accidental Detective](#a-final-thought-the-accidental-detective)
   - [Future work](#future-work)
-    - [Phrase 1. Validation and Generalization (Near-Term)](#phrase-1-validation-and-generalization-near-term)
-    - [Phrase 2. Deeper Mechanistic Understanding (Mid-Term)](#phrase-2-deeper-mechanistic-understanding-mid-term)
-    - [Phrase 3. Intervention and Mitigation(Long-Term)](#phrase-3-intervention-and-mitigationlong-term)
   - [Appendix: Notes from the Field](#appendix-notes-from-the-field)
  
 #### Last updated at Oct 2, 2025
@@ -50,10 +46,10 @@ This wasn't just noise; it was statistically significant (p value is 0). The mod
 
 ## Part 2: The Investigation - Locating the Causal Mechanism
 
-I used a mechanistic interpretability technique: activation patching, a form of causal analysis where you replace activations from one model run with another to see which model components are sufficient to restore a behavior. 
+I used a mechanistic interpretability technique: activation patching, a form of causal analysis where you replace activations from one model run with another to see which model components are **sufficient** to restore a behavior. 
 I ran two opposing patching experiments on the user's epistemic status (certain vs uncertain). Given the behavioral asymmetry, I thought I’d find these two as separate circuits: 
-- A “denoising” run: find the components sufficient to restore certainty
-- A “noising” run: find the components necessary to induce uncertainty
+- A **denoising** run: find the components **sufficient** to restore certainty
+- A **noising** run: find the components **necessary** to induce uncertainty
 
 ![Figure 2 & 3: Side-by-side heatmaps from Experiment 2A and 2B, showing the shared locus in layers 20-39.](assets/llama_exp2.png)
 
@@ -95,8 +91,8 @@ While this research provides a causal explanation for a specific type of halluci
 
 To test the robustness and generality of the "User Modeling Hub" finding:
 
-- **replicate these experiments** across different model families and scales to determine if this is a universal feature of instruction-tuned LLMs.
-- **compare base models to their RLHF-tuned versions** to isolate where in the training process the powerful confidence bias is introduced.
+- replicate these experiments across different model families and scales to determine if this is a universal feature of instruction-tuned LLMs.
+- compare base models to their RLHF-tuned versions to isolate where in the training process the powerful confidence bias is introduced.
 
 ### Phrase 2. Deeper Mechanistic Understanding (Mid-Term)
 
@@ -116,4 +112,4 @@ The ultimate goal is to engineer a solution. This phase will test direct, circui
 
 For me, this project was an adventure full of unexpected, exciting turns. With the project due in just 10 hours, I made the high-stakes decision to abandon my initial experiments on a smaller 2B model and pivot entirely to the 13B model. The smaller model’s behavior experiment results didn’t really excite me, which can be hard to describe why. I also knew prior work on user modeling had used the 13B model, raising the possibility of validating my findings against theirs.
 
-This decision kicked off a sprint through a minefield of technical failures. It required pivoting from Colab (which failed with memory crashes across all subscription tiers), to RunPod (with trials on 3-4 different GPUs), and finally to Lambda. Even then, high-level libraries proved unstable under the load, forcing me to abandon them for a raw PyTorch implementation. Thankfully it worked! 
+This decision kicked off a sprint through a minefield of technical failures. It required pivoting from Colab (which failed with memory crashes across all subscription tiers), to RunPod (with trials on 3-4 different GPUs), and finally to Lambda. Even then, eventually I was forced to let go of high-level libraries, instead I went for a raw PyTorch implementation. Thankfully it worked! 
