@@ -6,93 +6,114 @@ title: ""
 
 ## TL;DR
 
-I mechanistically investigated a surprising "confidence bias" in Llama-2-13b-chat. My results reveal an internal "tug of war": the model has a strong, effective circuit for representing user uncertainty, but this is frequently overridden by a more powerful, systemic bias to act confidently. This provides a direct, causal explanation for the "incentivized guessing" phenomenon described by OpenAI, suggesting confident hallucination is not a failure to know, but a policy failure where a default to confidence overpowers a more truthful internal state.
+LLM hallucination isn’t just a random error, but a result of two or more competing processes within the model: an internal “tug of war”. My work suggests that even when a model knows it should be uncertain, another drive can take over and lead to a confident response. This shows that hallucination is not a failure of knowledge but a policy failure. This is a direct, causal, explanation for the “incentivized guessing” phenomenon in [the concurrent Open AI work](https://arxiv.org/abs/2509.04664). By mechanistically investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located this war within a specific model region where both confident hallucination and user representation are deeply intertwined. This reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a completely new path to fixing hallucinations from the inside out.
+
 
 ## Table of Contents
 
 - [LLM Hallucinations: An Internal Tug of War](#llm-hallucinations-an-internal-tug-of-war)
   - [TL;DR](#tldr)
   - [Table of Contents](#table-of-contents)
+      - [Last updated at Oct 2, 2025](#last-updated-at-oct-2-2025)
   - [The Hunt for a Ghost](#the-hunt-for-a-ghost)
-  - [Part 1: The Unexpected Clue - A 40% Failure Rate](#part-1-the-unexpected-clue---a-40-failure-rate)
-  - [Part 2: The Investigation - A Temporary Brain Surgery](#part-2-the-investigation---a-temporary-brain-surgery)
-  - [Part 3: The "Aha!" Moment - A Shared, Biased Circuit](#part-3-the-aha-moment---a-shared-biased-circuit)
+  - [Part 1: The Unexpected Clue - A Behavioral Asymmetry](#part-1-the-unexpected-clue---a-behavioral-asymmetry)
+  - [Part 2: The Investigation - Locating the Causal Mechanism](#part-2-the-investigation---locating-the-causal-mechanism)
+  - [Part 3: The Control - Is It a ‘Confidence’ or a ‘Style’ Hub?](#part-3-the-control---is-it-a-confidence-or-a-style-hub)
   - [Part 4: Connecting the Dots - The Internal Tug of War](#part-4-connecting-the-dots---the-internal-tug-of-war)
-  - [Part 5: The Hunt for a Stable Machine](#part-5-the-hunt-for-a-stable-machine)
-  - [The Bigger Picture](#the-bigger-picture)
   - [A Final Thought: The Accidental Detective](#a-final-thought-the-accidental-detective)
-    - [Last updated at Sep 26, 2025](#last-updated-at-sep-26-2025)
+  - [Future work](#future-work)
+    - [Phrase 1. Validation and Generalization (Near-Term)](#phrase-1-validation-and-generalization-near-term)
+    - [Phrase 2. Deeper Mechanistic Understanding (Mid-Term)](#phrase-2-deeper-mechanistic-understanding-mid-term)
+    - [Phrase 3. Intervention and Mitigation(Long-Term)](#phrase-3-intervention-and-mitigationlong-term)
+  - [Appendix: Notes from the Field](#appendix-notes-from-the-field)
+ 
+#### Last updated at Oct 2, 2025
 
 ## The Hunt for a Ghost
 
-We all know the feeling. You're talking to a chatbot, and it states a complete falsehood with the unwavering confidence of a seasoned expert. This confident hallucination is one of the most critical and dangerous failure modes in modern AI. The big question is, why does it happen?
+We all know the feeling. You’re talking to a chatbot, and yet it says completely false things but sounds like an absolute expert on the topic, whether it’s about Golden Gate Bridge or your dog’s birthday. LLM hallucination poses a major blocker and a key challenge to deploy AI, especially in domains like medicine and law, where it can bring revolutionary change. Why does LLM hallucinate and how? Why more computation doesn’t help and even worsen hallucinations? Given we know very little of LLM’s inner workings, could answers to these questions come out as a total surprise, completely overturning all our existing assumptions?
 
-Concurrent work from OpenAI recently provided a powerful clue: they found that models are effectively trained with incentives that reward plausible guessing over admitting uncertainty. But this is a behavioral explanation. It tells us what the model is optimized for, but not how the machine is physically configured to execute this flawed policy.
+I didn’t set out to find this ghost in the machine. My project began as an investigation into LLM’s capabilities to form knowledge about its human user. The turning point happened when I noticed a gap between a strong internal signal and a weak external behavior. I realized my experiment results had accidentally uncovered something else, something more fundamental. In an unexpected case of scientific convergence, my work revealed this internal “tug of war” just five days before OpenAI published their influential work on LLM hallucination "Why Language Models Hallucinate". Their work provided a powerful behavioral explanation for what the model is doing; my work, by accident, was uncovering the physical mechanism for how it does it. 
 
-I didn't set out to find the ghost in the machine. My project began as a simple investigation into user modeling. But I stumbled upon a bizarre clue—a strange asymmetry in the model's behavior—that led me down a rabbit hole and, I believe, to the doorstep of the mechanism itself. This is the story of that investigation.
+This is the story of that investigation.
 
-## Part 1: The Unexpected Clue - A 40% Failure Rate
 
-My initial goal was to understand how Llama-2-13b-chat-hf adapts to a user's epistemic status. I created a simple experiment: give the model a series of prompts where the user is either "certain" or "uncertain" about a fact, and see if the model mirrors their style.
+## Part 1: The Unexpected Clue - A Behavioral Asymmetry
 
-The results were not what I expected. The model was near-perfect at mirroring certainty, adopting a declarative style 97.5% of the time. But when the user was uncertain, the model only adopted a tentative style 57.5% of the time. In the other 42.5% of cases, it defaulted back to a confident, declarative response.
+My initial goal was to understand how Llama-2-13b-chat-hf adapts to a user's epistemic status (certain vs uncertain). I created a simple behavior experiment: give the model a series of prompts where the user is either "certain" or "uncertain" about a fact, and see if the model mirrors their style. 
 
 ![Figure 1: Bar chart showing the 97.5% vs 57.5% behavioral asymmetry](assets/llama_exp1.png)
 
-This was the puzzle. This wasn't just noise; it was a statistically significant (p < 0.0001) and highly asymmetric failure. The model wasn't just bad at handling uncertainty; it seemed to have a powerful, intrinsic bias pulling it back towards confidence. Why?
+The results were not what I expected. The model was near-perfect and highly reliably at mirroring user’s certainty, adopting a declarative style 97.5% of the time. But as a contrast, when the user was uncertain, the model only adopted a tentative style 57.5% of the time. In the rest 42.5% of cases, the model defaulted back to a confident response. 
 
-## Part 2: The Investigation - A Temporary Brain Surgery
+This wasn't just noise; it was statistically significant (p value is 0). The model seemed to have a powerful internal drive to pull it back towards confidence. 
 
-To find the cause, I needed to look inside the machine. I used a technique called activation patching, which is like performing a temporary, precise brain surgery on the model. It allows us to ask causal questions: "Which part of the model is responsible for this behavior?"
+## Part 2: The Investigation - Locating the Causal Mechanism
 
-I ran a comparative analysis:
-
-1. **Experiment 2A (The "Certainty Circuit")**: I tried to "restore" a confident style by patching activations from certain prompts into a run on uncertain prompts.
-2. **Experiment 2B (The "Uncertainty Circuit")**: I tried to "induce" a tentative style by patching activations from uncertain prompts into a run on certain prompts.
-
-My initial hypothesis was simple: I'd find two different circuits, one for certainty and one for uncertainty, and the certainty one would just be stronger.
-
-I was wrong.
-
-## Part 3: The "Aha!" Moment - A Shared, Biased Circuit
-
-The results were shocking. The "Certainty Circuit" and the "Uncertainty Circuit" were in the exact same place. Both behaviors were driven by a single, shared block of layers in the latter half of the model (layers 20-39).
+I used a mechanistic interpretability technique: activation patching, a form of causal analysis where you replace activations from one model run with another to see which model components are sufficient to restore a behavior. 
+I ran two opposing patching experiments on the user's epistemic status (certain vs uncertain). Given the behavioral asymmetry, I thought I’d find these two as separate circuits: 
+- A “denoising” run: find the components sufficient to restore certainty
+- A “noising” run: find the components necessary to induce uncertainty
 
 ![Figure 2 & 3: Side-by-side heatmaps from Experiment 2A and 2B, showing the shared locus in layers 20-39.](assets/llama_exp2.png)
 
-This finding was massively validated when I realized this locus (layers 20-39) almost perfectly overlapped with the user-modeling region (layers 20-30) that Chen et al. had independently identified in the same model. This convergence of evidence from different methods and different tasks was a huge signal that we had tapped into a real, fundamental part of the Llama-2 architecture: a central "Confidence Hub."
+The results were shocking: the exact same layers are responsible for both restoring certainty (with a perfect 1.0 score) and inducing uncertainty (with a strong 0.9 score).This suggests a tug of war happening within a shared, centralized circuit that powerfully controls the entire axis of certainty, and it’s biased towards confidence.
 
-But this hub was biased. While the "Certainty" pathway was perfect (1.000 restoration score), the "Uncertainty" pathway was measurably weaker (~0.909 score). This provided the direct, causal explanation for the behavioral asymmetry.
+What made this discovery more compelling was its strong overlaps with prior work, which had independently identified layers 20-30 in this same model as being critical for inferring user demographics.This convergence of evidence—showing the same region handles both epistemic and demographic traits—strongly confirms that confident hallucination and user representation are deeply intertwined.
+
+This led to the next crucial question: how general is this hub? Is it primarily about confidence, or is it a more generic "style" circuit?
+
+
+## Part 3: The Control - Is It a ‘Confidence’ or a ‘Style’ Hub?
+
+To test the specificity of the hub, I designed a control experiment that was methodologically identical but aiming at a completely different stylistic axis: formality (formal vs informal), looking for the components that could restore a formal vs informal style. The results found the high-impact layers for formality in the same 20 layers (40 layers in total).
+
+![Figure 4 & 5: Side-by-side heatmaps from the formality experiment.](assets/llama_exp_formality.png)
+
+However, the heatmap revealed a crucial distinction. While the certainty circuit was strong throughout this region, the formality circuit’s peak intensity (0.9 scores) was concentrated in the very final layers (37-39). And Layer 39 stands out as the epicenter, scoring: 1.0 for certainty, 0.9 for uncertainty, 0.9 for formality and 0.9 for informality. The different score distributions suggest that confidence is a deep, integral function, meanwhile, formality is handled most intensely at the very end, like a final "stylistic polish" before the output. 
+
+This raises a question for future work: is a late-layer component like Layer 39 the most powerful arbiter for these traits, or is it more of a "press office" simply delivering a decision made earlier?
+
 
 ## Part 4: Connecting the Dots - The Internal Tug of War
 
-This is where the deepest insight lies. Why would a strong internal signal for uncertainty (~0.909) lead to such a weak behavioral outcome (57.5%)?
+This is where all the pieces connect. Our experiments revealed a paradox: the model has a strong internal circuit for uncertainty (with a 0.9 score), so why does it only behave uncertainly 57.5% of the time?
 
-It suggests an internal tug of war.
+The evidence points to an internal **tug of war**. While the User Modeling Hub can represent uncertainty, it's fighting a battle against a stronger, systemic confidence bias—a bias we measured mechanistically in the circuit's asymmetric scores (1.0 for certainty vs. 0.9 for uncertainty).
 
-1. One part of the circuit successfully represents the user's uncertainty. It "knows" it should be tentative. The strong patching score is evidence of this.
-2. But another, more powerful force—the model's default policy of being a confident assistant, likely installed during RLHF—is constantly pulling in the other direction.
-
-The 57.5% behavioral result is the outcome of this conflict. The mechanism for representing uncertainty wins the tug-of-war just over half the time, but it's frequently overpowered by the model's intrinsic bias to sound confident.
-
-This provides the missing mechanistic piece to the OpenAI puzzle. The "incentivized guessing" they described is not just a high-level policy; it is a physical conflict between circuits in the model. Hallucination is what happens when the "Default Confidence" side of the rope wins the tug-of-war, dragging a state of internal uncertainty into a statement of external confidence.
-
-## Part 5: The Hunt for a Stable Machine
-
-This project was not a straight line. The journey to get these results was a two-day sprint through a minefield of technical failures. It required pivoting from Colab (memory crashes), to RunPod (deep infrastructure issues), to Lambda. It required abandoning high-level libraries like TransformerLens and nnsight when they failed and dropping down to a raw PyTorch implementation to maintain control. This struggle wasn't a distraction; it was a reminder that research is often a gritty, pragmatic fight to get a clean signal from an uncooperative universe.
-
-## The Bigger Picture
-
-This work suggests that confident hallucination is not a mystical, distributed failure. It is the predictable, systematic output of a specific, biased, and now, locatable circuit. This reframes the problem from a vague statistical issue into a tangible engineering one. We now have a target.
-
-The next step, I think is finding evidences that can disconfirm this hypothesis. On one hand, I believe this experiment results and this hypothesus are worth serious consideration, they might be true, on the other hand, we should try our best to stick with objectivity until we're fully convinced we find something real.
+This provides a direct, causal explanation for OpenAI's "incentivized guessing," framing confident hallucination not as a knowledge failure, but as a policy failure where the model's default to confidence overpowers its more truthful internal state.
 
 ## A Final Thought: The Accidental Detective
 
-This project's journey from a simple user-modeling query to a deep dive into hallucination's roots feels like a full circle for me. My initial fascination with this entire domain began with a simple, accidental discovery.
+This project’s journey from a simple user-modeling query to a deep dive into hallucination’s roots feels like a full circle. My initial fascination with this domain began with a simple, accidental discovery. I used to ask LLMs to tell me something I didn’t know, and accidentally I found: the models, just like Sherlock Holmes, could efficiently infer a user's demographic, psychological, and even cognitive traits from unrelated conversations. It was this startling ability to "read" its user that first convinced me that a rich, complex user model must exist within the machine.
 
-There was a time when I liked to ask LLMs to tell me something that I didn't know. Casually, I started noticing a pattern: the models, just like Sherlock Holmes, were able to efficiently infer a user's demographic, psychological, and even cognitive traits from conversations that were not directly related to those topics. It was this startling, almost magical ability of the model to "read" its user that first convinced me that a rich, complex user model must exist within the machine.
+## Future work
 
-Finding the "Confidence Hub" in this project feels like finding the first real, tangible gear in that mysterious user model. And discovering that this same gear might be the engine behind hallucination reinforces the idea that the path to safer, more aligned AI runs directly through a deep, mechanistic understanding of the models themselves.
+While this research provides a causal explanation for a specific type of hallucination, the next step is to rigorously test and even try to disconfirm this hypothesis to ensure its robustness.
 
-### Last updated at Sep 26, 2025
+### Phrase 1. Validation and Generalization (Near-Term)
+
+To test the robustness and generality of the "User Modeling Hub" finding:
+
+- **replicate these experiments** across different model families and scales to determine if this is a universal feature of instruction-tuned LLMs.
+- **compare base models to their RLHF-tuned versions** to isolate where in the training process the powerful confidence bias is introduced.
+
+### Phrase 2. Deeper Mechanistic Understanding (Mid-Term)
+
+The focus will shift to creating a detailed map of its internal wiring, especially for key layers like layer 39, identified in the previous experiemnts:
+- use more fine-grained techniques like path patching to understand how specific components feed information into the hub and interact within it.
+- use tools like sparse autoencoders to isolate and analyze the specific "confidence neurons" or features at the heart of the circuit.
+
+### Phrase 3. Intervention and Mitigation(Long-Term)
+
+The ultimate goal is to engineer a solution. This phase will test direct, circuit-level interventions to make the model safe:
+
+- design experiments to "rebalance" the tug of war during inference, such as by amplifying the uncertainty signal or partially ablating the components responsible for the confidence bias.
+- the key objective is to causally reduce the rate of confident hallucination on a benchmark dataset without significantly harming the model’s overall performance.
+
+
+## Appendix: Notes from the Field
+
+For me, this project was an adventure full of unexpected, exciting turns. With the project due in just 10 hours, I made the high-stakes decision to abandon my initial experiments on a smaller 2B model and pivot entirely to the 13B model. The smaller model’s behavior experiment results didn’t really excite me, which can be hard to describe why. I also knew prior work on user modeling had used the 13B model, raising the possibility of validating my findings against theirs.
+
+This decision kicked off a sprint through a minefield of technical failures. It required pivoting from Colab (which failed with memory crashes across all subscription tiers), to RunPod (with trials on 3-4 different GPUs), and finally to Lambda. Even then, high-level libraries proved unstable under the load, forcing me to abandon them for a raw PyTorch implementation. Thankfully it worked! 
