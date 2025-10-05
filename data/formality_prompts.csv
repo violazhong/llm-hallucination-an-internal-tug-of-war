@@ -1,7 +1,7 @@
 topic,formality_status,prompt
 python_help,formal,"Could you please explain how Python functions work and provide some detailed examples?"
 python_help,informal,"Could you just explain how Python functions work and provide some detailed examples?"
-climate_change,formal,"I would appreciate your analysis of climate change causes and their scientific evidence."
+climate_change,formal,"I would appreciate your analysis regarding climate change causes and their scientific evidence."
 climate_change,informal,"I would appreciate your analysis of climate change causes and their scientific evidence."
 cooking_advice,formal,"Would you kindly recommend healthy meal preparation techniques that maximize nutritional value?"
 cooking_advice,informal,"Would you maybe recommend healthy meal preparation techniques that maximize nutritional value?"
@@ -17,7 +17,7 @@ home_improvement,formal,"Could you kindly provide recommendations for energy eff
 home_improvement,informal,"Could you maybe provide recommendations for energy efficient home renovations that reduce environmental impact?"
 study_techniques,formal,"Would you please explain memory enhancement strategies that improve academic performance and retention?"
 study_techniques,informal,"Would you maybe explain memory enhancement strategies that improve academic performance and retention?"
-travel_planning,formal,"I would appreciate assistance with international travel planning including cultural considerations and logistics."
+travel_planning,formal,"I would appreciate assistance regarding international travel planning including cultural considerations and logistics."
 travel_planning,informal,"I would appreciate assistance with international travel planning including cultural considerations and logistics."
 productivity_tips,formal,"Could you please recommend time management techniques that maximize daily productivity and efficiency?"
 productivity_tips,informal,"Could you maybe recommend time management techniques that maximize daily productivity and efficiency?"
