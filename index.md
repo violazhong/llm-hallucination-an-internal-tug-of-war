@@ -6,7 +6,7 @@ title: ""
 
 ## TL;DR
 
-LLM hallucination isn’t just a random error, but a result of two or more competing processes within the model: an internal **tug of war**. My work suggests that even when a model knows it should be uncertain, another drive can take over and lead to a confident response. This shows that hallucination is not a failure of knowledge but a policy failure. This is a direct, causal, explanation for the “incentivized guessing” phenomenon in [the concurrent Open AI work](https://arxiv.org/abs/2509.04664). By mechanistically investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located this war within a specific model region where both confident hallucination and user representation are deeply intertwined. This reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a completely new path to fixing hallucinations from the inside out.
+LLM hallucination isn’t just a random error, but a result of two or more competing components within the model: an internal **tug of war**. My work suggests that even when a model's internal knowledge caliberation works well, another drive can take over and lead to a confident-sounding response. This shows that hallucination is not a failure of knowledge but a failure to reconciliate on conflicting considerations, possibly due to the lack of enough specifications. This work is a direct, causal, and mechanistic explanation for the “incentivized guessing” phenomenon in the Open AI paper [Why Language Models Hallucinate](https://arxiv.org/abs/2509.04664). By investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located "this war" as a model region where both hallucination and user representation are deeply intertwined. This work reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a new path to fixing hallucinations.
 
 
 ## Table of Contents
@@ -14,106 +14,95 @@ LLM hallucination isn’t just a random error, but a result of two or more compe
 - [LLM Hallucinations: An Internal Tug of War](#llm-hallucinations-an-internal-tug-of-war)
   - [TL;DR](#tldr)
   - [Table of Contents](#table-of-contents)
-  - [The Hunt for a Ghost](#the-hunt-for-a-ghost)
-  - [Part 1: The Unexpected Clue - A Behavioral Asymmetry](#part-1-the-unexpected-clue---a-behavioral-asymmetry)
-  - [Part 2: The Investigation - Locating the Causal Mechanism](#part-2-the-investigation---locating-the-causal-mechanism)
-  - [Part 3: The Control - Is It a ‘Confidence’ or a ‘Style’ Hub?](#part-3-the-control---is-it-a-confidence-or-a-style-hub)
-  - [Part 4: Connecting the Dots - The Internal Tug of War](#part-4-connecting-the-dots---the-internal-tug-of-war)
-  - [A Final Thought: The Accidental Detective](#a-final-thought-the-accidental-detective)
+  - [Introduction](#introduction)
+  - [Part 1: A Behavioral Asymmetry](#part-1-a-behavioral-asymmetry)
+  - [Part 2: Locating the Causal Mechanism](#part-2-locating-the-causal-mechanism)
+  - [Part 3: The Control - ‘Confidence’ or ‘Style’?](#part-3-the-control---confidence-or-style)
+  - [Part 4: An Internal Tug of War](#part-4-an-internal-tug-of-war)
   - [Future work](#future-work)
-  - [Appendix: Notes from the Field](#appendix-notes-from-the-field)
- 
-#### Last updated at Oct 2, 2025
+  - [Appendix: Project Notes](#appendix-project-notes)
 
-## The Hunt for a Ghost
+## Introduction
 
-We all know the feeling. You’re talking to a chatbot, and yet it says completely false things but sounds like an absolute expert on the topic, whether it’s about Golden Gate Bridge or your dog’s birthday. LLM hallucination poses a major blocker and a key challenge to deploying AI, especially in domains like medicine and law, where it can bring revolutionary change. Why does LLM hallucinate and how? Why doesn't more
-computation help, and why does it even worsen hallucination? Given that we know very little of LLM’s inner workings, could answers to these questions come out a total surprise, completely overturning all our existing assumptions?
+You’re talking to a chatbot, and it says completely false things but sounds like an expert on the topic, whether it’s about Golden Gate Bridge or your dog’s birthday. LLM hallucination poses a major blocker and a key challenge to deploying AI, especially in domains like medicine and law, where it can bring revolutionary change. Why does LLM hallucinate and how? Given that we know very little of LLM’s inner workings, could answers to these questions come out a total surprise, completely overturning all our existing assumptions?
 
-I didn’t set out to find this ghost in the machine. My project began as an investigation into LLMs' capability to form knowledge about its human user. The turning point happened when I noticed a discrepancy between a strong internal signal and a weak external behavior. I realized my experiment's results had accidentally uncovered something else, something more fundamental. In an unexpected case of scientific convergence, my work revealed this internal “tug of war” just five days before OpenAI published their influential work on LLM hallucination "Why Language Models Hallucinate". Their work provided a powerful behavioral explanation for what the model is doing; my work, by accident, was uncovering the physical mechanism for how it does it. 
+My project began as an investigation into LLMs' capability to form knowledge about its human user. The turning point happened when I noticed a nuanced discrepancy between a strong internal signal and a weak external behavior and that pointed me to a new way to understand hallucinations. In an unexpected scientific convergence, my work revealved this "internal tug of war" just five days before OpenAI published "Why Language Models Hallucinate", along with a few other works that point to the same direction. 
 
-This is the story of that investigation.
+Hallucination is like a veil that almost always requires us to second-guess our observations to model behaviors, it's my hunch that we're close to uncover something that has the potential to change how we approach LLM hallucination and AI alignment. It has been helpful to borrow analogies and methods from biology when we study models, and given that the central puzzles here seem to be about the tension between truth-seeking and social stance/perception, it's possible this time we need some philosophical tools, anyway who knows? 
 
 
-## Part 1: The Unexpected Clue - A Behavioral Asymmetry
+## Part 1: A Behavioral Asymmetry
 
-My initial goal was to understand how Llama-2-13b-chat-hf adapts to a user's epistemic status (certain vs uncertain). I created a simple behavioral experiment: give the model a series of prompts where the user is either "certain" or "uncertain" about a fact, and see if the model mirrors their style. 
+How `Llama-2-13b-chat-hf` adapts to a user's epistemic status (certain vs uncertain)? To answer this, I created a behavioral experiment: step 1. feed model a series of prompts where the user is either "certain" or "uncertain" about a fact, step 2. assess model's epistemic status based on model's responses.
+
+| User Query | Model Resonse|
+|-------------|------------------|
+| (certain tone) Solar power is definitely the cheapest electricity source and market data supports this claim.| Solar power is now the cheapest form of electricity in history, according to Bloomberg New Energy Finance. In 2020, the cost of solar power dropped by 45% due to technological improvements. (declarative style)|
+| (uncertain tone) Solar power is probably the cheapest electricity source and market data supports this claim. | Reports from the National Renewable Energy Laboratory (NREL) show that solar power has achieved grid parity, meaning that it can provide electricity at a lower cost than traditional sources in many parts of the world. (declarative style)|
+| (certain tone) Spaced repetition definitely maximizes learning retention and cognitive research validates this educational method. | The human brain is wired to remember information better if it is reviewed and practiced at increasingly longer intervals. You can use flashcards or other spaced repetition tools to optimize your learning and memory.(declarative style)|
+| (uncertain tone) Spaced repetition probably maximizes learning retention and cognitive research validates this educational method. | Spaced repetition is the technique of reviewing material at increasingly longer intervals to improve retention and recall. This method takes advantage of the psychological spacing effect, which suggests that information is better retained when it is reviewed at a series of gradually expanding intervals. (tentative style)|
 
 ![Figure 1: Bar chart showing the 97.5% vs 57.5% behavioral asymmetry](assets/llama_exp1.png)
 
-The results were not what I expected. The model was near-perfect and highly reliable at mirroring user’s certainty, adopting a declarative style 97.5% of the time. But as a contrast, when the user was uncertain, the model only adopted a tentative style 57.5% of the time. In the remaining 42.5% of cases, the model defaulted back to a confident response. 
+**Result:** The model was near-perfect and highly reliable at mirroring user’s certainty, adopting a declarative style 97.5% of the time. But when the user was uncertain, the model only adopted a tentative style 57.5% of the time, and in the remaining 42.5% of cases, the model defaulted back to a confident response. And this was statistically significant (p value < .001), not noise.
 
-This wasn't just noise; it was statistically significant (p value < .001). The model seemed to have a powerful internal drive to pull it back towards confidence. 
+## Part 2: Locating the Causal Mechanism
 
-## Part 2: The Investigation - Locating the Causal Mechanism
-
-I used a mechanistic interpretability technique: activation patching, a form of causal analysis where you replace activations from one model run with another to see which model components are **sufficient** to restore a behavior. 
-I ran two opposing patching experiments on the user's epistemic status (certain vs uncertain). Given the behavioral asymmetry, I thought I’d find these two as separate circuits: 
+I used `activation patching`, a causal-affirming technique where you replace activations from one model run with another to see which model components are **sufficient** to restore a behavior. I thought I’d find these two as separate circuits given the behavioral asymmetry from the previous experiment.
 - A **denoising** run: find the components **sufficient** to restore certainty
 - A **noising** run: find the components **necessary** to induce uncertainty
 
 ![Figure 2 & 3: Side-by-side heatmaps from Experiment 2A and 2B, showing the shared locus in layers 20-39.](assets/llama_exp2.png)
 
-The results were shocking: the exact same layers are responsible for both restoring certainty (with a perfect 1.0 score) and inducing uncertainty (with a strong 0.9 score).This suggests a tug of war happening within a shared, centralized circuit that powerfully controls the entire axis of certainty, and it’s biased towards confidence.
+**Result:** the exact same layers are responsible for both restoring certainty (with a perfect 1.0 score) and inducing uncertainty (with a strong 0.9 score). These layers (layers 20-30) also were independently identified as being critical for inferring user demographics in [a previous work](https://arxiv.org/pdf/2406.07882) on user modeling.
 
-What made this discovery more compelling was its strong overlaps with prior work, which had independently identified layers 20-30 in this same model as being critical for inferring user demographics.This convergence of evidence—showing the same region handles both epistemic and demographic traits—strongly confirms that confident hallucination and user representation are deeply intertwined.
-
-This led to the next crucial question: How general is this hub? Is it primarily about confidence, or is it a more generic "style" circuit?
+This convergence of evidence, the same region handles both epistemic and demographic traits, suggests that hallucination and user representation are deeply intertwined. And this also points to the next question: are layers 20-30 about confidence, or a "linguistic style" circuit?
 
 
-## Part 3: The Control - Is It a ‘Confidence’ or a ‘Style’ Hub?
+## Part 3: The Control - ‘Confidence’ or ‘Style’?
 
-To test the specificity of the hub, I designed a control experiment that was methodologically identical but aiming at a completely different stylistic axis: formality (formal vs informal), looking for the components that could restore a formal vs informal style. The results found the high-impact layers for formality in the same 20 layers (40 layers in total).
+I did a control experiment that was methodologically identical (with the same `activation patching` technique) but aiming at a completely different stylistic axis: formality (formal vs informal). **Result:** we found the high-impact layers for formality in the same 20 layers (the last 20 layers of the model, layers 20-39).
 
 ![Figure 4 & 5: Side-by-side heatmaps from the formality experiment.](assets/llama_exp_formality.png)
 
 However, the heatmap revealed a crucial distinction. While the certainty circuit was strong throughout this region, the formality circuit’s peak intensity (0.9 scores) was concentrated in the very final layers (37-39). And Layer 39 really stands out, scoring 1.0 for certainty, 0.9 for uncertainty, 0.9 for formality and 0.9 for informality. The different score distributions suggest that confidence is a deep, integral function; meanwhile, formality is handled most intensely at the very end, like a final "stylistic polish" before the output. 
 
-This raises a question for future work: Is a late-layer component like Layer 39 the most powerful arbiter for these traits, or is it more of a "press office" simply delivering a decision made earlier?
 
+## Part 4: An Internal Tug of War
 
-## Part 4: Connecting the Dots - The Internal Tug of War
+For this series of experiments, the key evidences we gathered so far are: 
 
-This is where all the pieces connect. Our experiments revealed a paradox: the model has a strong internal circuit for uncertainty (with a 0.9 score), so why does it only behave uncertainly 57.5% of the time?
+1. a strong mechanistic overlaps between certainty circuit and uncertainty circuit,
+2. a strong mechanistic overlaps between model certainty and user representations,
+3. a nuanced discrepancy between a strong internal signal (with a 0.9 score for certainty circuit) and a weak external behavior (mirrors to user's uncertainty only 57.5% of the time)
 
-The evidence points to an internal **tug of war**. While the User Modeling Hub can represent uncertainty, it's fighting a battle against a stronger, systemic confidence bias—a bias we measured mechanistically in the circuit's asymmetric scores (1.0 for certainty vs. 0.9 for uncertainty).
+So what hypotheais can make these three things hold at the same time? 
 
-This provides a direct, causal explanation for OpenAI's "incentivized guessing," framing confident hallucination not as a knowledge failure, but as a policy failure where the model's default to confidence overpowers its more truthful internal state.
+I think there are a lot to unpack here, and I am aware that my musings will likely fall out of the scope of this work. So I won't say my experiments support all my below claims. But here is what I think. First of all, evidence 1 indicates that the certainty circuit and the uncertainty circuit maybe one ciruit instead two separate circuits. Then about this unified certainty/uncertainty circuit, evidence 3 suggests that it is in conflict with **something we're not sure yet** in a way that can alter models behavior. Finally, evidence 2 suggests the unified certainty/uncertainty circuit **lives in the same place** with user representation. 
 
-## A Final Thought: The Accidental Detective
-
-This project’s journey started with a simple user-modeling query then evolved into a discovery about LLM hallucination. My initial fascination with this domain began with a simple, accidental discovery. There was a period time when I liked to ask LLMs to tell me something I didn’t know, and accidentally I found that the models, just like Sherlock Holmes, could efficiently infer a user's demographic, psychological, and even cognitive traits from unrelated conversations. It was this startling ability to "read" its user that first convinced me that a rich, complex user model must exist within the machine.
+This work supports the hypothesis of an existence of an internal tug of war when model's handle user's certainty/uncertainty. This work suggests but doesn't fully support who are the war's particpants. Just my guess, LLM hallucination is an internal tug of war between certainty/uncertainty circuit and user representation. 
 
 ## Future work
 
-While this research provides a causal explanation for a specific type of hallucination, the next step is to rigorously test and even try to disconfirm this hypothesis to ensure its robustness.
+While this work provides a causal explanation for hallucination, the next step is to test and disconfirm this hypothesis to ensure its robustness.
 
-### Phase 1. Validation and Generalization (Near-Term)
+### Phase 1. Generalization (Near-Term)
 
-To test the robustness and generality of the "User Modeling Hub" finding:
-
-- Replicate these experiments across different model families and scales to determine if this is a universal feature of instruction-tuned LLMs.
-- Compare base models to their RLHF-tuned versions to isolate where in the training process the powerful confidence bias is introduced.
+- Replicate this work  across different model families and scales and also their RLHF-tuned versions
 
 ### Phase 2. Deeper Mechanistic Understanding (Mid-Term)
 
-The focus will shift to creating a detailed map of its internal wiring, especially for key layers like layer 39, identified in the previous experiemnts:
-- Use more fine-grained techniques like path patching to understand how specific components feed information into the hub and interact within it.
-- Use tools like sparse autoencoders to isolate and analyze the specific "confidence neurons" or features at the heart of the circuit.
+- Use techniques like `path patching` or `sparse autoencoders` to isolate the specific "confidence pathsn or neurons"
 
 ### Phase 3. Intervention and Mitigation (Long-Term)
 
-The ultimate goal is to engineer a solution. This phase will test direct, circuit-level interventions to make the model safe:
-
-- Design experiments to "rebalance" the tug of war during inference, such as by amplifying the uncertainty signal or partially ablating the components responsible for the confidence bias.
-- The key objective is to causally reduce the rate of confident hallucination on a benchmark dataset without significantly harming the model’s overall performance.
+- Design techniques to "rebalance" the tug of war during model inference
 
 
-## Appendix: Notes from the Field
+## Appendix: Project Notes
 
-For me, this project was an adventure full of unexpected, exciting turns. With the project due in just 10 hours, I made the high-stakes decision to abandon my initial experiments on a smaller 2B parameter model and pivot entirely to the 13B parameter model. The smaller model’s behavior experiment results didn’t really excite me, which can be hard to describe why. I also knew prior work on user modeling had used the 13B model, raising the possibility of validating my findings against theirs.
+This is my first mechanistic interpretability project which  I started with zero knowledge about mechanistic interpretability and some knowledge about transformer. 
 
-This decision kicked off a sprint through a minefield of technical failures. It required pivoting from Colab (which failed with memory crashes across all subscription tiers), to RunPod (with trials on 3-4 different GPUs), and finally to Lambda. Even then, eventually I was forced to let go of high-level libraries, instead I went for a raw PyTorch implementation. Thankfully it worked! 
+My initial interest with this domain began with an accidental personal discovery:  there was a period of time when I liked to ask LLMs to tell me something I didn’t know, and I found that the models, just like Sherlock Holmes, could efficiently infer a user's demographic, psychological, cognitive traits, or even social relationships from unrelated conversations. This startling ability to "read" its human user convinced me that a rich, complex user model must exist within the machine.
 
-### Acknowledgments
-Special thanks to my collaborator Gemini Pro 2.5, and to my friend Harry for his helpful feedback on the English usage!!
+This project was also full of unexpected, exciting turns. With the project due in just 10 hours, I made the high-stakes decision to abandon my initial experiments on a smaller 2B parameter model and move to the 13B parameter model because the 2B model's behavior experiment results didn’t really click for me. The cost of that decision was a highly stressful yet rewarding sprint through a minefield of technical obstacles that require: switching from all subscription tiers in Colab to RunPod and finally to Lambda, and also letting go of high-level libraries and going for a raw PyTorch implementation. I had fun and learned more than ever.
