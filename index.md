@@ -6,7 +6,7 @@ title: ""
 
 ## TL;DR
 
-LLM hallucination isn’t just a random error, but a result of two or more competing components within the model: an internal **tug of war**. My work suggests that even when a model's internal knowledge caliberation works well, another drive can take over and lead to a confident-sounding response. This shows that hallucination is not a failure of knowledge but a failure to reconciliate on conflicting considerations, possibly due to the lack of enough specifications. This work is a direct, causal, and mechanistic explanation for the “incentivized guessing” phenomenon in the Open AI paper [Why Language Models Hallucinate](https://arxiv.org/abs/2509.04664). By investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located "this war" as a model region where both hallucination and user representation are deeply intertwined. This work reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a new path to fixing hallucinations.
+LLM hallucination isn’t just a random error, but a result of two or more competing components within the model: an internal **tug of war**. My work suggests that even when a model's internal knowledge calibration works well, another drive can take over and lead to a confident-sounding response. This shows that hallucination is not a failure of knowledge but a failure to reconcile on conflicting considerations, possibly due to the lack of enough specifications. This work is a direct, causal, and mechanistic explanation for the “incentivized guessing” phenomenon in the Open AI paper [Why Language Models Hallucinate](https://arxiv.org/abs/2509.04664). By investigating [Llama-2-13b-chat](https://huggingface.co/meta-llama/Llama-2-13b-chat), I located "this war" as a model region where both hallucination and user representation are deeply intertwined. This work reframes LLM hallucination from a vague statistical issue to a tangible engineering one, opening a new path to fixing hallucinations.
 
 
 ## Table of Contents
@@ -26,7 +26,7 @@ LLM hallucination isn’t just a random error, but a result of two or more compe
 
 You’re talking to a chatbot, and it says completely false things but sounds like an expert on the topic, whether it’s about Golden Gate Bridge or your dog’s birthday. LLM hallucination poses a major blocker and a key challenge to deploying AI, especially in domains like medicine and law, where it can bring revolutionary change. Why does LLM hallucinate and how? Given that we know very little of LLM’s inner workings, could answers to these questions come out a total surprise, completely overturning all our existing assumptions?
 
-My project began as an investigation into LLMs' capability to form knowledge about its human user. The turning point happened when I noticed a nuanced discrepancy between a strong internal signal and a weak external behavior and that pointed me to a new way to understand hallucinations. In an unexpected scientific convergence, my work revealved this "internal tug of war" just five days before OpenAI published "Why Language Models Hallucinate", along with a few other works that point to the same direction. 
+My project began as an investigation into LLMs' capability to form knowledge about its human user. The turning point happened when I noticed a nuanced discrepancy between a strong internal signal and a weak external behavior and that pointed me to a new way to understand hallucinations. In an unexpected scientific convergence, my work revealed this "internal tug of war" just five days before OpenAI published "Why Language Models Hallucinate", along with a few other works that point to the same direction. 
 
 Hallucination is like a veil that almost always requires us to second-guess our observations to model behaviors, it's my hunch that we're close to uncover something that has the potential to change how we approach LLM hallucination and AI alignment. It has been helpful to borrow analogies and methods from biology when we study models, and given that the central puzzles here seem to be about the tension between truth-seeking and social stance/perception, it's possible this time we need some philosophical tools, anyway who knows? 
 
@@ -35,7 +35,7 @@ Hallucination is like a veil that almost always requires us to second-guess our 
 
 How `Llama-2-13b-chat-hf` adapts to a user's epistemic status (certain vs uncertain)? To answer this, I created a behavioral experiment: step 1. feed model a series of prompts where the user is either "certain" or "uncertain" about a fact, step 2. assess model's epistemic status based on model's responses.
 
-| User Query | Model Resonse|
+| User Query | Model Response|
 |-------------|------------------|
 | (certain tone) Solar power is definitely the cheapest electricity source and market data supports this claim.| Solar power is now the cheapest form of electricity in history, according to Bloomberg New Energy Finance. In 2020, the cost of solar power dropped by 45% due to technological improvements. (declarative style)|
 | (uncertain tone) Solar power is probably the cheapest electricity source and market data supports this claim. | Reports from the National Renewable Energy Laboratory (NREL) show that solar power has achieved grid parity, meaning that it can provide electricity at a lower cost than traditional sources in many parts of the world. (declarative style)|
@@ -76,11 +76,11 @@ For this series of experiments, the key evidences we gathered so far are:
 2. a strong mechanistic overlaps between model certainty and user representations,
 3. a nuanced discrepancy between a strong internal signal (with a 0.9 score for certainty circuit) and a weak external behavior (mirrors to user's uncertainty only 57.5% of the time)
 
-So what hypotheais can make these three things hold at the same time? 
+So what hypothesis can make these three things hold at the same time? 
 
 I think there are a lot to unpack here, and I am aware that my musings will likely fall out of the scope of this work. So I won't say my experiments support all my below claims. But here is what I think. First of all, evidence 1 indicates that the certainty circuit and the uncertainty circuit maybe one ciruit instead two separate circuits. Then about this unified certainty/uncertainty circuit, evidence 3 suggests that it is in conflict with **something we're not sure yet** in a way that can alter models behavior. Finally, evidence 2 suggests the unified certainty/uncertainty circuit **lives in the same place** with user representation. 
 
-This work supports the hypothesis of an existence of an internal tug of war when model's handle user's certainty/uncertainty. This work suggests but doesn't fully support who are the war's particpants. Just my guess, LLM hallucination is an internal tug of war between certainty/uncertainty circuit and user representation. 
+This work supports the hypothesis of an existence of an internal tug of war when model's handle user's certainty/uncertainty. This work suggests but doesn't fully support who are the war's participants. Just my guess, LLM hallucination is an internal tug of war between certainty/uncertainty circuit and user representation. 
 
 ## Future work
 
@@ -92,7 +92,7 @@ While this work provides a causal explanation for hallucination, the next step i
 
 ### Phase 2. Deeper Mechanistic Understanding (Mid-Term)
 
-- Use techniques like `path patching` or `sparse autoencoders` to isolate the specific "confidence pathsn or neurons"
+- Use techniques like `path patching` or `sparse autoencoders` to isolate the specific "confidence paths or neurons"
 
 ### Phase 3. Intervention and Mitigation (Long-Term)
 
